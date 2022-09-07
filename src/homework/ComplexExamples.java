@@ -1,12 +1,9 @@
 package homework;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.*;
 
 public class ComplexExamples {
 
@@ -89,6 +86,45 @@ public class ComplexExamples {
         1 - Jack (4)
      */
 
+    //функци для поиска двух чисел в моссиве дающих в сумме заданное число
+    static ArrayList<Integer> twoSum(Integer[] inputArray, Integer target) {
+
+        ArrayList<Integer> result = null;
+        HashMap<Integer, Integer> mapDifference = new HashMap<>();
+
+        for (Integer number : inputArray) {
+            if (mapDifference.containsValue(target - number)) {
+                result = new ArrayList<>();
+                result.add(target-number);
+                result.add(number);
+                break;
+            }
+
+            mapDifference.put(target - number, number);
+        }
+
+        return result;
+    }
+
+    // функция нечеткого поиска
+    static boolean fuzzySearch(String subStr, String str) {
+        int currentSubStr = 0;
+        int sizeSubStr = subStr.length();
+        int sizeStr = str.length();
+
+        for (int i = 0; i < sizeStr; ++i) {
+            if (subStr.charAt(currentSubStr) == str.charAt(i)) {
+                currentSubStr += 1;
+            }
+            if (currentSubStr == sizeSubStr) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     public static void main(String[] args) {
         System.out.println("Raw data:");
         System.out.println();
@@ -107,7 +143,7 @@ public class ComplexExamples {
         Task1
             Убрать дубликаты, отсортировать по идентификатору, сгруппировать по имени
 
-            Что должно получиться
+            Что должно полnumberучиться
                 Key:Amelia
                 Value:4
                 Key: Emily
@@ -118,25 +154,35 @@ public class ComplexExamples {
                 Value:1
          */
 
-
-
+        Map<String, Long> mapCountPerson = Arrays.stream(Optional.of(RAW_DATA)
+                .orElseThrow(NullPointerException::new))
+                .distinct()
+                .collect(groupingBy(Person::getName, Collectors.counting()));
+        mapCountPerson.forEach((key, value) -> System.out.println("Key:" + key + "\nValue:" + value));
+        System.out.println("==========");
         /*
         Task2
-
             [3, 4, 2, 7], 10 -> [3, 7] - вывести пару менно в скобках, которые дают сумму - 10
          */
 
-
+        Integer[] inputArray = new Integer[] {3, 4, 2, 7};
+        int target = 10;
+        System.out.println(twoSum(inputArray, target));
+        System.out.println("==========");
 
         /*
-        Task3
-            Реализовать функцию нечеткого поиска
-                    fuzzySearch("car", "ca6$$#_rtwheel"); // true
-                    fuzzySearch("cwhl", "cartwheel"); // true
-                    fuzzySearch("cwhee", "cartwheel"); // true
-                    fuzzySearch("cartwheel", "cartwheel"); // true
-                    fuzzySearch("cwheeel", "cartwheel"); // false
-                    fuzzySearch("lw", "cartwheel"); // false
+        *Task3
+        *   Реализовать функцию нечеткого поиска
+        *           fuzzySearch("car", "ca6$$#_rtwheel"); // true
+        *           fuzzySearch("cwhl", "cartwheel"); // true
+        *           fuzzySearch("cwhee", "cartwheel"); // true
+        *           fuzzySearch("cartwheel", "cartwheel"); // true
+        *           fuzzySearch("cwheeel", "cartwheel"); // false
+        *           fuzzySearch("lw", "cartwheel"); // false
          */
+
+        String subStr = "lw";
+        String str = "cartwheel";
+        System.out.println(fuzzySearch(subStr, str));
     }
 }
