@@ -104,14 +104,14 @@ public class MapExamples {
 //                .collect(Collectors.toUnmodifiableList());
 //        System.out.println(together);
 //
-//        Map<String, Integer> bookMap = authors.stream()
-//                .collect(Collectors.toMap(Author::getName, author -> author.getBooks().size()));
-//        System.out.println(bookMap);
+        Map<String, Integer> bookMap = authors.stream()
+                .collect(Collectors.toMap(Author::getName, author -> author.getBooks().size()));
+        System.out.println(bookMap);
 //
-//        Map<Integer, List<String>> grouping = authors.stream()
-//                .collect(Collectors.groupingBy(author -> author.getBooks().size(),
-//                        mapping(Author::getName, toList())));
-//        System.out.println(grouping);
+        Map<Integer, List<String>> grouping = authors.stream()
+                .collect(Collectors.groupingBy(author -> author.getBooks().size(),
+                        mapping(Author::getName, toList())));
+        System.out.println(grouping);
 //
 //
 //        System.out.println(bookMap.computeIfAbsent("key", s -> s.length()));
